@@ -1,56 +1,80 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import { useState, useEffect } from "react";
+import { Card } from "./components/Card";
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import CardColumns from "react-bootstrap/CardColumns";
 
 function App() {
+  const [error, setError] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [pokemon, setPokemon] = useState([]);
+
+  function handlePage(direction) {
+    const url = pokemon[direction];
+    if (url) {
+      fetch(url)
+        .then((res) => res.json())
+        .then(
+          (result) => {
+            setPokemon(result);
+            setIsLoaded(true);
+          },
+          (error) => {
+            setError(error);
+            setIsLoaded(true);
+          }
+        );
+    }
+  }
+
+  useEffect(() => {
+    fetch("https://pokeapi.co/api/v2/pokemon")
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          setPokemon(result);
+          setIsLoaded(true);
+        },
+        (error) => {
+          setError(error);
+          setIsLoaded(true);
+        }
+      );
+  }, []);
+
+  let bodyText;
+  if (error) {
+    bodyText = (
+      <div className="App">
+        <div>Error: {error.message}</div>
+      </div>
+    );
+  } else if (!isLoaded) {
+    bodyText = <div>Loading...</div>;
+  } else {
+    bodyText = (
+      <div className="App">
+        <CardColumns style={{ columnCount: 5 }}>
+          {pokemon.results.map((onePokemon, i) => (
+            <div key={i}>
+              <Card pokemon={onePokemon} />
+            </div>
+          ))}
+        </CardColumns>
+        <div>
+          <button onClick={(e) => (e.preventDefault(), handlePage("previous"))}>
+            Previous
+          </button>
+          <button onClick={(e) => (e.preventDefault(), handlePage("next"))}>
+            Next
+          </button>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
+      <header>Pokemon Cards</header> {bodyText}
     </div>
   );
 }
