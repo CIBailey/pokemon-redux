@@ -1,3 +1,15 @@
+Technical Test for Izburg Marketplace
+
+Feature scope:
+Display a paginated list of pokemon names with data from
+https://pokeapi.co/api/v2/pokemon. React & Redux must be used for the exercise.
+List items should be displayed as tiles instead of table.
+When user clicks on an item, more detailed information about the pokemon should be
+displayed. The detailed information is available at
+https://pokeapi.co/api/v2/pokemon/{{pokemonName}}. Information to be displayed could be:
+its picture, stats, type, abilities, etc.
+There should also be button(s) to add a pokemon to my (favorite) collection.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
 ## Available Scripts
