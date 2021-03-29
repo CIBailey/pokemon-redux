@@ -1,82 +1,79 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Card } from "./components/Card";
+import FeatPokemon from "./components/FeatPokemon";
+import { CardColumns, Button } from "react-bootstrap";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import CardColumns from "react-bootstrap/CardColumns";
+import { connect } from "react-redux";
+import updateFeatPokemon from "./store/actions/updateFeatPokemon";
+import fetchPokemon from "./store/actions/fetchPokemon";
+import fetchPokemonNext from "./store/actions/fetchNextPokemon";
 
-function App() {
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [pokemon, setPokemon] = useState([]);
-
-  function handlePage(direction) {
-    const url = pokemon[direction];
+function App(props) {
+  function handlePage(url, e) {
+    e.preventDefault();
     if (url) {
-      fetch(url)
-        .then((res) => res.json())
-        .then(
-          (result) => {
-            setPokemon(result);
-            setIsLoaded(true);
-          },
-          (error) => {
-            setError(error);
-            setIsLoaded(true);
-          }
-        );
+      props.fetchPokemonNext(url);
     }
   }
 
+  function triggerModal(pokemonName, event) {
+    event.preventDefault();
+    props.updateFeatPokemon(pokemonName);
+  }
+
   useEffect(() => {
-    fetch("https://pokeapi.co/api/v2/pokemon")
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          setPokemon(result);
-          setIsLoaded(true);
-        },
-        (error) => {
-          setError(error);
-          setIsLoaded(true);
-        }
-      );
+    props.fetchPokemon();
   }, []);
 
   let bodyText;
-  if (error) {
+
+  if (props.pokemon) {
     bodyText = (
-      <div className="App">
-        <div>Error: {error.message}</div>
-      </div>
-    );
-  } else if (!isLoaded) {
-    bodyText = <div>Loading...</div>;
-  } else {
-    bodyText = (
-      <div className="App">
+      <div>
+        <FeatPokemon />
         <CardColumns style={{ columnCount: 5 }}>
-          {pokemon.results.map((onePokemon, i) => (
-            <div key={i}>
+          {props.pokemon.results.map((onePokemon, i) => (
+            <div key={i} onClick={(e) => triggerModal(onePokemon.name, e)}>
               <Card pokemon={onePokemon} />
             </div>
           ))}
         </CardColumns>
-        <div>
-          <button onClick={(e) => (e.preventDefault(), handlePage("previous"))}>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <Button onClick={(e) => handlePage(props.pokemon.previous, e)}>
             Previous
-          </button>
-          <button onClick={(e) => (e.preventDefault(), handlePage("next"))}>
+          </Button>
+          <Button onClick={(e) => handlePage(props.pokemon.next, e)}>
             Next
-          </button>
+          </Button>
         </div>
       </div>
     );
   }
   return (
-    <div className="App">
-      <header>Pokemon Cards</header> {bodyText}
+    <div className="App" style={{ padding: "50px" }}>
+      <header style={{ padding: "30px", fontSize: "35px" }}>
+        Pokemon Cards
+      </header>{" "}
+      {bodyText}
     </div>
   );
 }
 
-export default App;
+const MapStateToProps = (state) => {
+  return {
+    featPokemon: state.featPokemon,
+    pokemon: state.pokemon,
+  };
+};
+
+const MapDispatchToProps = (dispatch) => {
+  return {
+    updateFeatPokemon: (pokemonName) =>
+      dispatch(updateFeatPokemon(pokemonName)),
+    fetchPokemon: () => dispatch(fetchPokemon),
+    fetchPokemonNext: (url) => dispatch(fetchPokemonNext(url)),
+  };
+};
+
+export default connect(MapStateToProps, MapDispatchToProps)(App);
