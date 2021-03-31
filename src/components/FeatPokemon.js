@@ -3,17 +3,17 @@ import { connect } from "react-redux";
 import updateFeatPokemon from "../store/actions/updateFeatPokemon";
 import addFavoritePokemon from "../store/actions/addFavoritePokemon";
 
-function FeatPokemon(props) {
+function FeatPokemon({ updateFeatPokemon, featPokemon, addFavoritePokemon }) {
   function modalClose() {
-    props.updateFeatPokemon(false);
+    updateFeatPokemon(false);
   }
 
   function addToFav(event) {
     event.preventDefault();
-    props.addFavoritePokemon(props.featPokemon.name);
+    addFavoritePokemon(featPokemon.name);
   }
 
-  if (props.featPokemon) {
+  if (featPokemon) {
     return (
       <Modal
         show
@@ -25,9 +25,9 @@ function FeatPokemon(props) {
         <Modal.Header>
           <div style={{ float: "left" }}>
             <div style={{ fontSize: "25px" }}>
-              {props.featPokemon.name.toUpperCase()}{" "}
+              {featPokemon.name.toUpperCase()}{" "}
             </div>{" "}
-            <b>XP: {props.featPokemon.base_experience}</b>
+            <b>XP: {featPokemon.base_experience}</b>
           </div>
 
           <Button variant="danger" onClick={modalClose}>
@@ -36,11 +36,11 @@ function FeatPokemon(props) {
         </Modal.Header>
         <Modal.Body style={{ alignSelf: "center" }}>
           <div style={{ float: "left", padding: "10px" }}>
-            <Image src={props.featPokemon.sprites.front_default} rounded />
+            <Image src={featPokemon.sprites.front_default} rounded />
           </div>
           <div style={{ float: "right", padding: "10px" }}>
             <h4>Abilities:</h4>
-            {props.featPokemon.abilities.map((oneAbility, i) => (
+            {featPokemon.abilities.map((oneAbility, i) => (
               <p key={i}> + {oneAbility.ability.name}</p>
             ))}
           </div>
