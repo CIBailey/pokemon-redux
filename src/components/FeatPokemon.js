@@ -4,7 +4,7 @@ import updateFeatPokemon from "../store/actions/updateFeatPokemon";
 import addFavoritePokemon from "../store/actions/addFavoritePokemon";
 
 function FeatPokemon(props) {
-  function onClose(event) {
+  function onHide(event) {
     event.preventDefault();
     props.updateFeatPokemon(false);
   }
@@ -30,7 +30,7 @@ function FeatPokemon(props) {
             <b>XP: {props.featPokemon.base_experience}</b>
           </div>
 
-          <Button variant="danger" onClick={(e) => onClose(e)}>
+          <Button variant="danger" onClick={(e) => onHide(e)}>
             Close
           </Button>
         </Modal.Header>

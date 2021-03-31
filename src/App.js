@@ -6,7 +6,6 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { connect } from "react-redux";
 import updateFeatPokemon from "./store/actions/updateFeatPokemon";
-import fetchPokemon from "./store/actions/fetchPokemon";
 import fetchPokemonNext from "./store/actions/fetchNextPokemon";
 
 function App(props) {
@@ -23,7 +22,7 @@ function App(props) {
   }
 
   useEffect(() => {
-    props.fetchPokemon();
+    props.fetchPokemonNext("");
   }, []);
 
   let bodyText;
@@ -71,7 +70,6 @@ const MapDispatchToProps = (dispatch) => {
   return {
     updateFeatPokemon: (pokemonName) =>
       dispatch(updateFeatPokemon(pokemonName)),
-    fetchPokemon: () => dispatch(fetchPokemon),
     fetchPokemonNext: (url) => dispatch(fetchPokemonNext(url)),
   };
 };
