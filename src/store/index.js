@@ -8,6 +8,14 @@ import featPokemonReducer from "./reducers/featPokemonReducer";
 import favPokemonReducer from "./reducers/favPokemonReducer";
 import pokemonReducer from "./reducers/pokemonReducer";
 import thunk from "redux-thunk";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
+
+const persistConfig = {
+  key: "root",
+  storage,
+};
+
 const middleware = [thunk];
 
 const reducer = combineReducers({
@@ -22,12 +30,17 @@ const initialState = {
   favPokemon: [],
 };
 
+const persistedReducer = persistReducer(persistConfig, reducer);
+
 const store = createStore(
-  reducer,
+  persistedReducer,
   initialState,
   compose(
     applyMiddleware(...middleware),
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   )
 );
-export default store;
+
+const persistor = persistStore(store);
+
+export { store, persistor };
