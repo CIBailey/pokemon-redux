@@ -1,10 +1,13 @@
 import { connect } from "react-redux";
-import { Fab, Modal, Paper } from "@material-ui/core";
+import { Fab, Modal, Paper, Divider } from "@material-ui/core";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import updateFeatPokemon from "../store/actions/updateFeatPokemon";
 import addFavoritePokemon from "../store/actions/addFavoritePokemon";
+import useStyles from "../Styes";
 
 function FeatPokemon({ updateFeatPokemon, featPokemon, addFavoritePokemon }) {
+  const classes = useStyles();
+
   function modalClose() {
     updateFeatPokemon(false);
   }
@@ -16,28 +19,41 @@ function FeatPokemon({ updateFeatPokemon, featPokemon, addFavoritePokemon }) {
 
   if (featPokemon) {
     return (
-      <Modal open={featPokemon ? true : false} onClose={modalClose}>
-        <Paper>
-          <div>
-            <div>
-              {" "}
-              <h2> {featPokemon.name.toUpperCase()} </h2>
-              <Fab onClick={(e) => addToFav(e)} aria-label="like">
-                <FavoriteIcon />
-              </Fab>
+      <Modal
+        className={classes.modal}
+        open={featPokemon ? true : false}
+        onClose={modalClose}
+      >
+        <Paper className={classes.modalWrapper}>
+          <div className={classes.textWrapper}>
+            <div className={classes.titleWrapper}>
+              <h2 className={classes.pokemonName}>
+                {featPokemon.name.toUpperCase()}
+              </h2>
+              <b className={classes.experience}>
+                XP: {featPokemon.base_experience}
+              </b>
             </div>
-            <p>
-              <div>
-                <img src={featPokemon.sprites.front_default} />
-              </div>
-              <b>XP: {featPokemon.base_experience}</b>
-            </p>
+            <Fab
+              className={classes.favoriteButton}
+              size={"small"}
+              onClick={(e) => addToFav(e)}
+              aria-label="like"
+            >
+              <FavoriteIcon />
+            </Fab>
           </div>
-          <div>
-            <h4>Abilities:</h4>
-            {featPokemon.abilities.map((oneAbility, i) => (
-              <p key={i}> + {oneAbility.ability.name}</p>
-            ))}
+          <Divider />
+          <div className={classes.details}>
+            <div className={classes.imgWrapper}>
+              <img src={featPokemon.sprites.front_default} />
+            </div>
+            <div className={classes.abilitesWrapper}>
+              <div>Abilities:</div>
+              {featPokemon.abilities.map((oneAbility, i) => (
+                <div key={i}> + {oneAbility.ability.name}</div>
+              ))}
+            </div>
           </div>
         </Paper>
       </Modal>
