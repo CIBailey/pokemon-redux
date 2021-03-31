@@ -1,7 +1,8 @@
 import { useEffect } from "react";
-import { Card } from "./components/Card";
+import { PokeCard } from "./components/PokeCard";
 import FeatPokemon from "./components/FeatPokemon";
-import { CardColumns, Button } from "react-bootstrap";
+import { CardColumns } from "react-bootstrap";
+import { Button, Container } from "@material-ui/core/";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { connect } from "react-redux";
@@ -29,24 +30,34 @@ function App(props) {
 
   if (props.pokemon) {
     bodyText = (
-      <div>
+      <Container maxWidth="md">
         <FeatPokemon />
         <CardColumns style={{ columnCount: 5 }}>
           {props.pokemon.results.map((onePokemon, i) => (
-            <div key={i} onClick={(e) => triggerModal(onePokemon.name, e)}>
-              <Card pokemon={onePokemon} />
+            <div key={i}>
+              <div onClick={(e) => triggerModal(onePokemon.name, e)}>
+                <PokeCard pokemon={onePokemon} />
+              </div>
             </div>
           ))}
         </CardColumns>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <Button onClick={(e) => handlePage(props.pokemon.previous, e)}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={(e) => handlePage(props.pokemon.previous, e)}
+          >
             Previous
           </Button>
-          <Button onClick={(e) => handlePage(props.pokemon.next, e)}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={(e) => handlePage(props.pokemon.next, e)}
+          >
             Next
           </Button>
         </div>
-      </div>
+      </Container>
     );
   }
   return (
