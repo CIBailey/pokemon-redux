@@ -4,8 +4,7 @@ import updateFeatPokemon from "../store/actions/updateFeatPokemon";
 import addFavoritePokemon from "../store/actions/addFavoritePokemon";
 
 function FeatPokemon(props) {
-  function onHide(event) {
-    event.preventDefault();
+  function modalClose() {
     props.updateFeatPokemon(false);
   }
 
@@ -19,6 +18,7 @@ function FeatPokemon(props) {
       <Modal
         show
         size="md"
+        onHide={modalClose}
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
@@ -30,7 +30,7 @@ function FeatPokemon(props) {
             <b>XP: {props.featPokemon.base_experience}</b>
           </div>
 
-          <Button variant="danger" onClick={(e) => onHide(e)}>
+          <Button variant="danger" onClick={modalClose}>
             Close
           </Button>
         </Modal.Header>
