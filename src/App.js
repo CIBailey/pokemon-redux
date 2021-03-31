@@ -8,8 +8,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { connect } from "react-redux";
 import updateFeatPokemon from "./store/actions/updateFeatPokemon";
 import fetchPokemonNext from "./store/actions/fetchNextPokemon";
+import useStyles from "./Styes";
 
 function App(props) {
+  const classes = useStyles();
+
   function handlePage(url, e) {
     e.preventDefault();
     if (url) {
@@ -32,16 +35,18 @@ function App(props) {
     bodyText = (
       <Container maxWidth="md">
         <FeatPokemon />
-        <CardColumns style={{ columnCount: 5 }}>
+        <CardColumns className={classes.cardColumn}>
           {props.pokemon.results.map((onePokemon, i) => (
-            <div key={i}>
-              <div onClick={(e) => triggerModal(onePokemon.name, e)}>
-                <PokeCard pokemon={onePokemon} />
-              </div>
+            <div
+              key={i}
+              className={classes.cardWrapper}
+              onClick={(e) => triggerModal(onePokemon.name, e)}
+            >
+              <PokeCard pokemon={onePokemon} />
             </div>
           ))}
         </CardColumns>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div className={classes.buttonWrapper}>
           <Button
             variant="contained"
             color="primary"
@@ -61,11 +66,8 @@ function App(props) {
     );
   }
   return (
-    <div className="App" style={{ padding: "50px" }}>
-      <header style={{ padding: "30px", fontSize: "35px" }}>
-        Pokemon Cards
-      </header>{" "}
-      {bodyText}
+    <div className="App">
+      <header className={classes.headerApp}>Pokemon Cards</header> {bodyText}
     </div>
   );
 }
