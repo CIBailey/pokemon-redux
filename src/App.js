@@ -1,8 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { PokeCard } from "./components/PokeCard";
 import FeatPokemon from "./components/FeatPokemon";
 import { CardColumns } from "react-bootstrap";
-import { Button, Container } from "@material-ui/core/";
+import { Button, Container, Drawer } from "@material-ui/core/";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { connect } from "react-redux";
@@ -10,33 +10,34 @@ import updateFeatPokemon from "./store/actions/updateFeatPokemon";
 import fetchPokemonNext from "./store/actions/fetchNextPokemon";
 import useStyles from "./Styes";
 
-function App(props) {
+function App({ fetchPokemonNext, updateFeatPokemon, pokemon }) {
   const classes = useStyles();
+  const [drawerToggle, setDrawerToggle] = useState(false);
 
   function handlePage(url, e) {
     e.preventDefault();
     if (url) {
-      props.fetchPokemonNext(url);
+      fetchPokemonNext(url);
     }
   }
 
   function triggerModal(pokemonName, event) {
     event.preventDefault();
-    props.updateFeatPokemon(pokemonName);
+    updateFeatPokemon(pokemonName);
   }
 
   useEffect(() => {
-    props.fetchPokemonNext("");
+    fetchPokemonNext("");
   }, []);
 
   let bodyText;
 
-  if (props.pokemon) {
+  if (pokemon) {
     bodyText = (
       <Container maxWidth="md">
         <FeatPokemon />
         <CardColumns className={classes.cardColumn}>
-          {props.pokemon.results.map((onePokemon, i) => (
+          {pokemon.results.map((onePokemon, i) => (
             <div
               key={i}
               className={classes.cardWrapper}
@@ -50,18 +51,27 @@ function App(props) {
           <Button
             variant="contained"
             color="primary"
-            onClick={(e) => handlePage(props.pokemon.previous, e)}
+            onClick={(e) => handlePage(pokemon.previous, e)}
           >
             Previous
           </Button>
           <Button
             variant="contained"
             color="primary"
-            onClick={(e) => handlePage(props.pokemon.next, e)}
+            onClick={(e) => handlePage(pokemon.next, e)}
           >
             Next
           </Button>
         </div>
+
+        <Button onClick={(e) => setDrawerToggle(true)}>Favorites</Button>
+        <Drawer
+          anchor={"bottom"}
+          open={drawerToggle}
+          onClose={(e) => setDrawerToggle(false)}
+        >
+          Charmander Pikachu
+        </Drawer>
       </Container>
     );
   }
