@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { PokeCard } from "./components/PokeCard";
+import FavoriteCollection from "./components/FavoriteCollection";
 import FeatPokemon from "./components/FeatPokemon";
 import { CardColumns } from "react-bootstrap";
 import { Button, Container, Drawer } from "@material-ui/core/";
@@ -10,7 +11,7 @@ import updateFeatPokemon from "./store/actions/updateFeatPokemon";
 import fetchPokemonNext from "./store/actions/fetchNextPokemon";
 import useStyles from "./Styes";
 
-function App({ fetchPokemonNext, updateFeatPokemon, pokemon }) {
+function App({ fetchPokemonNext, updateFeatPokemon, pokemon, favPokemon }) {
   const classes = useStyles();
   const [drawerToggle, setDrawerToggle] = useState(false);
 
@@ -63,14 +64,13 @@ function App({ fetchPokemonNext, updateFeatPokemon, pokemon }) {
             Next
           </Button>
         </div>
-
         <Button onClick={(e) => setDrawerToggle(true)}>Favorites</Button>
         <Drawer
           anchor={"bottom"}
           open={drawerToggle}
           onClose={(e) => setDrawerToggle(false)}
         >
-          Charmander Pikachu
+          <FavoriteCollection />
         </Drawer>
       </Container>
     );
@@ -86,6 +86,7 @@ const MapStateToProps = (state) => {
   return {
     featPokemon: state.featPokemon,
     pokemon: state.pokemon,
+    favPokemon: state.favPokemon,
   };
 };
 

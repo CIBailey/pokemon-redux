@@ -3,18 +3,30 @@ import { Fab, Modal, Paper, Divider } from "@material-ui/core";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import updateFeatPokemon from "../store/actions/updateFeatPokemon";
 import addFavoritePokemon from "../store/actions/addFavoritePokemon";
+import removeFavoritePokemon from "../store/actions/removeFavoritePokemon";
+
 import useStyles from "../Styes";
 
-function FeatPokemon({ updateFeatPokemon, featPokemon, addFavoritePokemon }) {
+function FeatPokemon({
+  updateFeatPokemon,
+  featPokemon,
+  addFavoritePokemon,
+  favPokemon,
+  removeFavoritePokemon,
+}) {
   const classes = useStyles();
 
   function modalClose() {
     updateFeatPokemon(false);
   }
 
-  function addToFav(event) {
+  function toggleFavorite(event) {
     event.preventDefault();
-    addFavoritePokemon(featPokemon.name);
+    if (favPokemon.indexOf(featPokemon.name) > -1) {
+      removeFavoritePokemon(featPokemon.name);
+    } else {
+      addFavoritePokemon(featPokemon.name);
+    }
   }
 
   if (featPokemon) {
@@ -37,7 +49,12 @@ function FeatPokemon({ updateFeatPokemon, featPokemon, addFavoritePokemon }) {
             <Fab
               className={classes.favoriteButton}
               size={"small"}
-              onClick={(e) => addToFav(e)}
+              color={
+                favPokemon.indexOf(featPokemon.name) > -1
+                  ? "secondary"
+                  : "default"
+              }
+              onClick={(e) => toggleFavorite(e)}
               aria-label="like"
             >
               <FavoriteIcon />
@@ -74,6 +91,8 @@ const MapDispatchToProps = (dispatch) => {
       dispatch(updateFeatPokemon(pokemonName)),
     addFavoritePokemon: (pokemonName) =>
       dispatch(addFavoritePokemon(pokemonName)),
+    removeFavoritePokemon: (pokemonName) =>
+      dispatch(removeFavoritePokemon(pokemonName)),
   };
 };
 export default connect(MapStateToProps, MapDispatchToProps)(FeatPokemon);
