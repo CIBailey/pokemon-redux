@@ -1,32 +1,15 @@
 import { connect } from "react-redux";
-import { Fab, Modal, Paper, Divider } from "@material-ui/core";
-import FavoriteIcon from "@material-ui/icons/Favorite";
+import { Modal, Paper, Divider } from "@material-ui/core";
 import updateFeatPokemon from "../store/actions/updateFeatPokemon";
-import addFavoritePokemon from "../store/actions/addFavoritePokemon";
-import removeFavoritePokemon from "../store/actions/removeFavoritePokemon";
-
+import FeatPokemonBookmarkButton from "./FeatPokemonBookmarkButton";
+import FeatPokemonAbilities from "./FeatPokemonAbilities";
 import useStyles from "../Styes";
 
-function FeatPokemon({
-  updateFeatPokemon,
-  featPokemon,
-  addFavoritePokemon,
-  favPokemon,
-  removeFavoritePokemon,
-}) {
+function FeatPokemon({ updateFeatPokemon, featPokemon }) {
   const classes = useStyles();
 
   function modalClose() {
     updateFeatPokemon(false);
-  }
-
-  function toggleFavorite(event) {
-    event.preventDefault();
-    if (favPokemon.indexOf(featPokemon.name) > -1) {
-      removeFavoritePokemon(featPokemon.name);
-    } else {
-      addFavoritePokemon(featPokemon.name);
-    }
   }
 
   if (featPokemon) {
@@ -46,32 +29,10 @@ function FeatPokemon({
                 XP: {featPokemon.base_experience}
               </b>
             </div>
-            <Fab
-              className={classes.favoriteButton}
-              size={"small"}
-              color={
-                favPokemon.indexOf(featPokemon.name) > -1
-                  ? "secondary"
-                  : "default"
-              }
-              onClick={(e) => toggleFavorite(e)}
-              aria-label="like"
-            >
-              <FavoriteIcon />
-            </Fab>
+            <FeatPokemonBookmarkButton />
           </div>
           <Divider />
-          <div className={classes.details}>
-            <div className={classes.imgWrapper}>
-              <img src={featPokemon.sprites.front_default} />
-            </div>
-            <div className={classes.abilitesWrapper}>
-              <div>Abilities:</div>
-              {featPokemon.abilities.map((oneAbility, i) => (
-                <div key={i}> + {oneAbility.ability.name}</div>
-              ))}
-            </div>
-          </div>
+          <FeatPokemonAbilities />
         </Paper>
       </Modal>
     );
@@ -89,10 +50,6 @@ const MapDispatchToProps = (dispatch) => {
   return {
     updateFeatPokemon: (pokemonName) =>
       dispatch(updateFeatPokemon(pokemonName)),
-    addFavoritePokemon: (pokemonName) =>
-      dispatch(addFavoritePokemon(pokemonName)),
-    removeFavoritePokemon: (pokemonName) =>
-      dispatch(removeFavoritePokemon(pokemonName)),
   };
 };
 export default connect(MapStateToProps, MapDispatchToProps)(FeatPokemon);

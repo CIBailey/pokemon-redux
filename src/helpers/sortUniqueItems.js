@@ -7,7 +7,7 @@ export function sortUniqueItems(list) {
 }
 
 const removeDuplicateStrings = (list) =>
-  list.filter((item, index) => array.indexOf(item) === index);
+  list.filter((item, index) => list.indexOf(item) === index);
 
 const sortStringsByDescendingOrder = (list) =>
   list.sort((a, b) => a.localeCompare(b));

@@ -34,13 +34,14 @@ function App({ fetchPokemonNext, updateFeatPokemon, pokemon, favPokemon }) {
   let bodyText;
 
   if (pokemon) {
+    console.log(pokemon);
     bodyText = (
       <Container maxWidth="md">
         <FeatPokemon />
         <CardColumns className={classes.cardColumn}>
           {pokemon.results.map((onePokemon, i) => (
             <div
-              key={i}
+              key={onePokemon.name + i}
               className={classes.cardWrapper}
               onClick={(e) => triggerModal(onePokemon.name, e)}
             >

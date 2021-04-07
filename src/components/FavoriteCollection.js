@@ -6,7 +6,7 @@ function FavoriteCollection({ favPokemon }) {
   let innerText;
   if (favPokemon) {
     innerText = favPokemon.map((onePokemon, i) => (
-      <div className={classes.favPokemon} key={i}>
+      <div className={classes.favPokemon} key={onePokemon.toUpperCase() + i}>
         {onePokemon.toUpperCase()}
       </div>
     ));
