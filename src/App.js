@@ -8,17 +8,22 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { connect } from "react-redux";
 import updateFeatPokemon from "./store/actions/updateFeatPokemon";
-import fetchPokemonNext from "./store/actions/fetchNextPokemon";
+import fetchNextPokemons from "./store/actions/fetchNextPokemons";
 import useStyles from "./Styes";
 
-function App({ fetchPokemonNext, updateFeatPokemon, pokemon, favPokemon }) {
+function App({
+  fetchNextPokemons,
+  updateFeatPokemon,
+  pokemonList,
+  favPokemon,
+}) {
   const classes = useStyles();
   const [drawerToggle, setDrawerToggle] = useState(false);
 
   function handlePage(url, e) {
     e.preventDefault();
     if (url) {
-      fetchPokemonNext(url);
+      fetchNextPokemons(url);
     }
   }
 
@@ -28,18 +33,18 @@ function App({ fetchPokemonNext, updateFeatPokemon, pokemon, favPokemon }) {
   }
 
   useEffect(() => {
-    fetchPokemonNext("");
+    fetchNextPokemons("");
   }, []);
 
   let bodyText;
 
-  if (pokemon) {
-    console.log(pokemon);
+  if (pokemonList) {
+    console.log(pokemonList);
     bodyText = (
       <Container maxWidth="md">
         <FeatPokemon />
         <CardColumns className={classes.cardColumn}>
-          {pokemon.results.map((onePokemon, i) => (
+          {pokemonList.results.map((onePokemon, i) => (
             <div
               key={onePokemon.name + i}
               className={classes.cardWrapper}
@@ -53,14 +58,14 @@ function App({ fetchPokemonNext, updateFeatPokemon, pokemon, favPokemon }) {
           <Button
             variant="contained"
             color="primary"
-            onClick={(e) => handlePage(pokemon.previous, e)}
+            onClick={(e) => handlePage(pokemonList.previous, e)}
           >
             Previous
           </Button>
           <Button
             variant="contained"
             color="primary"
-            onClick={(e) => handlePage(pokemon.next, e)}
+            onClick={(e) => handlePage(pokemonList.next, e)}
           >
             Next
           </Button>
@@ -86,7 +91,7 @@ function App({ fetchPokemonNext, updateFeatPokemon, pokemon, favPokemon }) {
 const MapStateToProps = (state) => {
   return {
     featPokemon: state.featPokemon,
-    pokemon: state.pokemon,
+    pokemonList: state.pokemon,
     favPokemon: state.favPokemon,
   };
 };
@@ -95,7 +100,7 @@ const MapDispatchToProps = (dispatch) => {
   return {
     updateFeatPokemon: (pokemonName) =>
       dispatch(updateFeatPokemon(pokemonName)),
-    fetchPokemonNext: (url) => dispatch(fetchPokemonNext(url)),
+    fetchNextPokemons: (url) => dispatch(fetchNextPokemons(url)),
   };
 };
 

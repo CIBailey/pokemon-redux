@@ -8,11 +8,12 @@ import useStyles from "../Styes";
 function FeatPokemonBookmarkButton({
   featPokemon,
   addFavoritePokemon,
-  favPokemon,
+  favPokemonsList,
   removeFavoritePokemon,
 }) {
   const classes = useStyles();
-  const isFavoritePokemon = () => favPokemon.indexOf(featPokemon.name) > -1;
+  const isFavoritePokemon = () =>
+    favPokemonsList.indexOf(featPokemon.name) > -1;
 
   const toggleFavorite = (event) => {
     event.preventDefault();
@@ -40,7 +41,7 @@ function FeatPokemonBookmarkButton({
 const MapStateToProps = (state) => {
   return {
     featPokemon: state.featPokemon,
-    favPokemon: state.favPokemon,
+    favPokemonsList: state.favPokemon,
   };
 };
 const MapDispatchToProps = (dispatch) => {

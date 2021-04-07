@@ -1,11 +1,11 @@
 import { connect } from "react-redux";
 import useStyles from "../Styes";
 
-function FavoriteCollection({ favPokemon }) {
+function FavoriteCollection({ favoritePokemons }) {
   const classes = useStyles();
   let innerText;
-  if (favPokemon) {
-    innerText = favPokemon.map((onePokemon, i) => (
+  if (favoritePokemons) {
+    innerText = favoritePokemons.map((onePokemon, i) => (
       <div className={classes.favPokemon} key={onePokemon.toUpperCase() + i}>
         {onePokemon.toUpperCase()}
       </div>
@@ -18,7 +18,7 @@ function FavoriteCollection({ favPokemon }) {
 
 const MapStateToProps = (state) => {
   return {
-    favPokemon: state.favPokemon,
+    favoritePokemons: state.favPokemon,
   };
 };
 

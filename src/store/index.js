@@ -5,8 +5,8 @@ import {
   applyMiddleware,
 } from "@reduxjs/toolkit";
 import featPokemonReducer from "./reducers/featPokemonReducer";
-import favPokemonReducer from "./reducers/favPokemonReducer";
-import pokemonReducer from "./reducers/pokemonReducer";
+import favoritePokemonsReducer from "./reducers/favoritePokemonsReducer";
+import pokemonsReducer from "./reducers/pokemonsReducer";
 import thunk from "redux-thunk";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
@@ -20,8 +20,8 @@ const middleware = [thunk];
 
 const reducer = combineReducers({
   featPokemon: featPokemonReducer,
-  pokemon: pokemonReducer,
-  favPokemon: favPokemonReducer,
+  pokemon: pokemonsReducer,
+  favPokemon: favoritePokemonsReducer,
 });
 
 const initialState = {

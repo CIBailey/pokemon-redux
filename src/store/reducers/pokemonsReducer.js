@@ -1,4 +1,4 @@
-const pokemonReducer = (state = {}, { type, payload }) => {
+const pokemonsReducer = (state = {}, { type, payload }) => {
   switch (type) {
     case "FETCH_OTHER_POKEMON":
       return payload;
@@ -7,4 +7,4 @@ const pokemonReducer = (state = {}, { type, payload }) => {
   }
 };
 
-export default pokemonReducer;
+export default pokemonsReducer;
