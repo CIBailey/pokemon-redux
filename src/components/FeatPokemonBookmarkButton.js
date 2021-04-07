@@ -18,7 +18,7 @@ function FeatPokemonBookmarkButton({
   const toggleFavorite = (event) => {
     event.preventDefault();
 
-    if (isFavoritePokemon) {
+    if (isFavoritePokemon()) {
       removeFavoritePokemon(featPokemon.name);
     } else {
       addFavoritePokemon(featPokemon.name);
@@ -29,7 +29,7 @@ function FeatPokemonBookmarkButton({
     <Fab
       className={classes.favoriteButton}
       size={"small"}
-      color={isFavoritePokemon ? "secondary" : "default"}
+      color={isFavoritePokemon() ? "secondary" : "default"}
       onClick={(e) => toggleFavorite(e)}
       aria-label="like"
     >
