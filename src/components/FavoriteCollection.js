@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import useStyles from "../Styes";
+import useStyles from "./FavoriteCollection.style";
 
 function FavoriteCollection({ favoritePokemons }) {
   const classes = useStyles();

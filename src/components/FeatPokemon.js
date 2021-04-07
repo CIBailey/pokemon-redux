@@ -3,7 +3,7 @@ import { Modal, Paper, Divider } from "@material-ui/core";
 import updateFeatPokemon from "../store/actions/updateFeatPokemon";
 import FeatPokemonBookmarkButton from "./FeatPokemonBookmarkButton";
 import FeatPokemonAbilities from "./FeatPokemonAbilities";
-import useStyles from "../Styes";
+import useStyles from "./FeatPokemon.style";
 
 function FeatPokemon({ updateFeatPokemon, featPokemon }) {
   const classes = useStyles();
@@ -14,11 +14,7 @@ function FeatPokemon({ updateFeatPokemon, featPokemon }) {
 
   if (featPokemon) {
     return (
-      <Modal
-        className={classes.modal}
-        open={featPokemon ? true : false}
-        onClose={modalClose}
-      >
+      <Modal open={featPokemon ? true : false} onClose={modalClose}>
         <Paper className={classes.modalWrapper}>
           <div className={classes.textWrapper}>
             <div className={classes.titleWrapper}>

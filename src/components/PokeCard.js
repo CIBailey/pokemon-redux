@@ -1,5 +1,5 @@
 import { Paper } from "@material-ui/core";
-import useStyles from "../Styes";
+import useStyles from "./PokeCard.style";
 
 export function PokeCard({ pokemon }) {
   const classes = useStyles();

@@ -3,7 +3,7 @@ import { Fab } from "@material-ui/core";
 import addFavoritePokemon from "../store/actions/addFavoritePokemon";
 import removeFavoritePokemon from "../store/actions/removeFavoritePokemon";
 import { connect } from "react-redux";
-import useStyles from "../Styes";
+import useStyles from "./FeatPokemonBookmarkButon.style";
 
 function FeatPokemonBookmarkButton({
   featPokemon,

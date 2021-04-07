@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import useStyles from "../Styes";
+import useStyles from "./FeatPokemonAbilities.style";
 
 function FeatPokemonAbilites({ featPokemon }) {
   const classes = useStyles();

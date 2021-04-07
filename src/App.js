@@ -39,7 +39,6 @@ function App({
   let bodyText;
 
   if (pokemonList) {
-    console.log(pokemonList);
     bodyText = (
       <Container maxWidth="md">
         <FeatPokemon />
