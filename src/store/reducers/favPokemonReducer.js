@@ -1,10 +1,10 @@
-import { cleanUpFavoriteArray } from "../../helpers";
+import { sortUniqueItems } from "../../helpers";
 
 const favPokemonReducer = (state = [], { type, payload }) => {
   switch (type) {
     case "ADD_FAVORITE_POKEMON":
       const updatedArray = [...state, payload];
-      const cleanArray = cleanUpFavoriteArray(updatedArray);
+      const cleanArray = sortUniqueItems(updatedArray);
       return cleanArray;
     case "REMOVE_FAVORITE_POKEMON":
       //check if already in state
